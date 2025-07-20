@@ -1,0 +1,33 @@
+{
+  "name": "test-tecnico-ixc",
+  "version": "1.0.0",
+  "main": "./src/infrastructure/server.js",
+  "scripts": {
+    "dev": "node --watch ./src/infrastructure/server.js",
+    "start:docs": "node ./src/swagger/swagger.js",
+    "start": "node ./src/infrastructure/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "mongoose": "^8.16.4",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "socket.io": "^4.8.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.0.5"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
+  },
+  "description": ""
+}
