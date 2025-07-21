@@ -1,4 +1,3 @@
-// src/application/schemas/userSchema.js
 import { z } from "zod"
 
 export const userSchema = z.object({

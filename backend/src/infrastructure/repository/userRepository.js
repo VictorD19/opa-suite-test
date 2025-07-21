@@ -54,7 +54,8 @@ class UserRepository {
     }
 
     async existUserByUserName(username) {
-        return (await this._model.find({ username })).length > 0
+        let exists = await this._model.findOne({ username }).exec()
+        return exists != null
     }
 
     async isActive(id) {

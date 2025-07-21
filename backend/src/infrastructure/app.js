@@ -16,14 +16,12 @@ dotenv.config();
 const allowedOrigins = [
     'http://localhost:3000',
 ];
-app.use(session({
+const sessionMiddleware = session({
     secret: process.env.SECRET_KEY_AUTH,
     resave: false,
     saveUninitialized: false,
-}));
-
-
-
+})
+app.use(sessionMiddleware);
 
 app.use(express.json());
 app.use(passport.initialize());
@@ -46,4 +44,4 @@ app.use("/api", routes)
 app.use('/docs', swagerUI.serve, swagerUI.setup(swaggerSpec));
 
 
-export default app;
+export { app, sessionMiddleware };

@@ -1,7 +1,6 @@
 import AppError from "../../shared/errors/appErros.js";
 
 class AuthController {
-
     constructor(userCreate) {
         this._useCreate = userCreate
     }
@@ -9,7 +8,7 @@ class AuthController {
     async Register(request, response) {
         try {
             const user = await this._useCreate.create(request.body)
-            return response.status(201).json(user)
+            return response.status(201).json({ message: "Cadastro realizado com sucesso", user })
 
         } catch (error) {
             if (error instanceof AppError)
