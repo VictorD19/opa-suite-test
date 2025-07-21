@@ -16,6 +16,7 @@ import { ConversationIntem } from "./ConversationItem";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { SidebarFooterUser } from "./SidebarFooterUser";
+import { NewConversationDialog } from "../NewConversationDialog";
 
 const data = [
     { tittle: "asai," },
@@ -100,7 +101,8 @@ export function AppSidebar({
                     </SidebarMenuItem>
                 </SidebarMenu>
                 <div className="p-2">
-                    <Button className="w-full">Nova Conversa + </Button>
+                        <NewConversationDialog trigger={   <Button className="w-full">Nova Conversa + </Button>}/>
+                   
                 </div>
                 <div className="px-2 py-0 mb-2">
                     <div className="relative">
