@@ -47,11 +47,11 @@ export function RegisterForm({ className, ...props }) {
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="w-[20rem]">
+      <Card >
         <CardHeader>
           <CardTitle className="text-2xl">Novo Usuario</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent >
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">

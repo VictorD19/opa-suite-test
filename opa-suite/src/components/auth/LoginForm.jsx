@@ -75,7 +75,7 @@ export function LoginForm({ className, ...props }) {
               </div>
               <SubmitButton text={"Enviar"} />
             </div>
-            <Separator />
+         <Separator  />
             <div className="mt-4 text-center text-sm">
               Não tem conta?{" "}
               <Link

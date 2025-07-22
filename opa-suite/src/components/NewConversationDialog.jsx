@@ -62,9 +62,9 @@ export function NewConversationDialog({ trigger }) {
             {filtered.length > 0 ? (
               filtered.map((conversation) => (
                 <Button
-                  key={id}
+                  key={conversation.id}
                   variant="ghost"
-                  onClick={()=>handleStartConversation(id)}
+                  onClick={()=>handleStartConversation(conversation.id)}
                   className="h-[4rem] p-2 group rounded flex gap-2 items-center hover:bg-primary justify-start text-left"
                 >
                   <Avatar
@@ -74,7 +74,7 @@ export function NewConversationDialog({ trigger }) {
                   >
                     <AvatarImage src="/avatars/fulano.jpg" alt="Avatar" />
                     <AvatarFallback>
-                      {username.substring(0, 2).toUpperCase()}
+                      {conversation?.username?.substring(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="">
