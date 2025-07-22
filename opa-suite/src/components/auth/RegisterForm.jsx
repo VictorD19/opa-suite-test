@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SubmitButton } from "../SumitButton";
 import { Register } from "@/api/auth";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useSocket } from "@/context/SocketContext";
@@ -23,6 +23,8 @@ export function RegisterForm({ className, ...props }) {
   const router = useRouter();
   const socketConnect = useSocket();
   const { setUser } = useAuth();
+  useEffect(() => { }, [socketConnect?.socket]);
+
   const handleChange = (e) => {
     setRegisterData({
       ...registerData,
@@ -30,21 +32,23 @@ export function RegisterForm({ className, ...props }) {
     });
   };
   const handleSubmit = async (e) => {
-    debugger;
+
     e.preventDefault();
     try {
       const { message, erro, ...data } = await Register(registerData);
       if (erro) return toast.error(erro);
 
       toast.success(message);
-      setUser(data.user)
+      setUser(prev => data.user)
+      router.push("/");
 
       socketConnect?.socket?.connect();
-      router.push("/");
     } catch (error) {
       toast.error(error.message);
     }
   };
+
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card >

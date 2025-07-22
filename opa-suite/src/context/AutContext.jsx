@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     
     loadUser();
-  }, []);
+  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

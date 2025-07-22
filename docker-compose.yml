@@ -14,13 +14,13 @@ services:
   app:
     build:
       context: ./opa-suite
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile     
     ports:
       - "8080:80"
     volumes:
       - frontend_build:/app/build
-    environment:
-      - NODE_ENV=production
+    env_file:
+      - ./opa-suite/.env
     networks:
       - app_network
 
@@ -29,11 +29,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "${PORT}:${PORT}"
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - SECRET_KEY_AUTH=${SECRET_KEY_AUTH}
-      - URI_DB_MONGO=${URI_DB_MONGO}
+      - "4000:4000"
+    env_file:
+      - ./backend/.env
     depends_on:
       - mongo
     restart: unless-stopped

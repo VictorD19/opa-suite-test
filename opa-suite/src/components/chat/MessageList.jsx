@@ -28,7 +28,7 @@ const MessageList = () => {
   useEffect(() => {
     if (!socket) return
     socket.on("new_message", ({ message }) => {
-      debugger;
+
       if (message.conversationId !== id) return;
 
       let [existeMessage] = messages.filter((m) => m.id == message.id);

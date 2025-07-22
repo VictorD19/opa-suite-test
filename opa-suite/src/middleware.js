@@ -7,6 +7,11 @@ export function middleware(request) {
   const publicPaths = ["/login", "/register"];
   const isPublicRoot = publicPaths.includes(pathname);
 
+  console.log("🔵 Middleware is running", {
+    token,
+    pathname,
+    isPublicRoot,
+  });
   if (isPublicRoot && token) {
     const loginUrl = new URL("/", request.url);
     return NextResponse.redirect(loginUrl);

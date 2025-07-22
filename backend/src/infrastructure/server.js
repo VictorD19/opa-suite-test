@@ -83,7 +83,7 @@ const server = async () => {
 };
 
 function GetQuantityCluster() {
-  debugger;
+
   const quantityCluster = process.env.QUANTIDADE_CLUSTER
   const quantityTotalCluster = os.availableParallelism();
   if (quantityCluster == "ALL")
