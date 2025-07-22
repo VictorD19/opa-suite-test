@@ -1,9 +1,10 @@
+
 import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner"
 import "../styles/globals.css";
 
 const poppins = Poppins({
-  weight: ["300","400", "500", "600", "700","800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ['latin'],
 })
 
@@ -16,10 +17,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en"  >
       <body
-        className={`${poppins.className} ${poppins.className} antialiased `}
+        className={`${poppins.className} ${poppins.className}  `}
       >
         {children}
-        <Toaster richColors  />
+        <Toaster richColors />
       </body>
     </html>
   );

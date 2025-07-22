@@ -1,16 +1,16 @@
-class UpdateUserOnlineState {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
-    }
+import AppError from "../../../shared/errors/appErros.js";
 
-    async execute(userId, isOnline) {
-        // try {
-        //     await this.userRepository.updateUserOnlineStatus(userId, isOnline);
-        // } catch (error) {
-        //     console.error("Error updating user online status:", error);
-        //     throw new Error("Failed to update user online status");
-        // }
-    }
+class UpdateUserOnlineState {
+  constructor(userRepository) {
+    this.userRepository = userRepository;
+  }
+
+  async update(userId, isOnline) {
+    if (!(await this.userRepository.existUserById(userId)))
+      throw new AppError("Usuario não existente");
+
+    await this.userRepository.updateUserOnlineStatus(userId, isOnline);
+  }
 }
 
 export default UpdateUserOnlineState;

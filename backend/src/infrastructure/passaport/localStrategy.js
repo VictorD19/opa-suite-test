@@ -19,8 +19,8 @@ export function configurePassport(passport) {
                 return done(null, user);
             } catch (err) {
                 if (err instanceof AppError)
-                    return done(null, false, { message: err.message });
-                return done({message: err.message});
+                    return done( err.message , false, err.message +"2" );
+                return done({erro: err.message});
             }
         })
     );

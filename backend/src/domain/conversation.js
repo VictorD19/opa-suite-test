@@ -3,7 +3,7 @@ class Conversation {
         {
             id,
             receiverId,
-            starterId,
+            senderId,
             status,
             createAt,
             updateAt,
@@ -13,7 +13,7 @@ class Conversation {
     ) {
         this.id = id;
         this.receiverId = receiverId;
-        this.starterId = starterId;
+        this.senderId = senderId;
         this.status = status;
         this.createAt = createAt;
         this.updateAt = updateAt;

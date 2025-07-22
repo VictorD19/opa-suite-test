@@ -1,5 +1,5 @@
 class Message {
-    constructor({ id, content, senderId, receiverId, createAt, type, read, conversationId }) {
+    constructor({ id, content, senderId, receiverId, createdAt, type, read, conversationId }) {
         this.id = id;
         this.type = type;
         this.content = content;
@@ -7,7 +7,7 @@ class Message {
         this.receiverId = receiverId;
         this.conversationId = conversationId
         this.read = read;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 }
 export default Message;

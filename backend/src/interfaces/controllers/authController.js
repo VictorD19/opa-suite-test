@@ -22,10 +22,14 @@ class AuthController {
         response.json({ message: "Login feito com sucesso", user: request.user });
     }
 
-    async Logout(req, res) {
-        req.logout(err => {
+    async Logout(request, response) {
+        request.logout(err => {
             if (err) return res.status(500).json({ error: "Erro ao sair" });
-            res.json({ message: "Logout realizado com sucesso" });
+            request.session.destroy(erro => {
+                if (erro) return res.status(500).send({ erro: 'Erro ao destruir sessão' });
+                response.clearCookie('connect.sid');
+                response.status(200).send({ message: 'Logout realizado com sucesso' });
+              });
         });
     }
 

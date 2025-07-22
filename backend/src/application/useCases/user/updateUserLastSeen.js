@@ -1,15 +1,14 @@
 class UpdateUserLastSeen {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
-    }
+  constructor(userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    async update(userId, lastSeen) {
-        // try {
-        //     await this.userRepository.updateLastSeen(userId, lastSeen);
-        // } catch (error) {
-        //     throw new Error(`Failed to update last seen for user ${userId}: ${error.message}`);
-        // }
-    }
+  async update(userId) {
+    if (!(await this.userRepository.existUserById(userId)))
+      throw new AppError("Usuario não existente");
+
+    await this.userRepository.updateLastSeenById(userId);
+  }
 }
 
 export default UpdateUserLastSeen;

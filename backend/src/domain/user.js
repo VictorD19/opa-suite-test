@@ -3,7 +3,7 @@ class User {
     constructor(
         { id,
             name,
-            userName,
+            username,
             password,
             role,
             online,
@@ -13,7 +13,7 @@ class User {
     ) {
         this.id = id;
         this.name = name;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.role = role;
         this.online = online;

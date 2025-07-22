@@ -1,30 +1,23 @@
-"use client"
-import { cn } from "@/lib/utils"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import Link from "next/link"
-import { SubmitButton } from "../SumitButton"
-import { useState } from "react"
-import { Login } from "@/api/auth"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
+"use client";
+import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { SubmitButton } from "../SumitButton";
+import { useState } from "react";
+import { Login } from "@/api/auth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useSocket } from "@/context/SocketContext";
 
-export function LoginForm({
-  className,
-  ...props
-}) {
+export function LoginForm({ className, ...props }) {
   const [loginData, setLoginData] = useState({
     username: "",
-    password: ""
-  })
+    password: "",
+  });
   const router = useRouter();
-
+  const socketConnect = useSocket();
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
@@ -35,13 +28,13 @@ export function LoginForm({
     e.preventDefault();
     try {
       const { message, erro, ...data } = await Login(loginData);
-      if (erro)
-        return toast.error(erro)
+      if (erro) return toast.error(erro);
 
-      toast.success(message)
+      toast.success(message);
+      socketConnect?.socket?.connect();
       router.push("/");
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
   };
 
@@ -56,19 +49,32 @@ export function LoginForm({
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Username</Label>
-                <Input id="username" type="text" required onChange={handleChange} />
+                <Input
+                  id="username"
+                  type="text"
+                  required
+                  onChange={handleChange}
+                />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Senha</Label>
                 </div>
-                <Input id="password" type="password" required onChange={handleChange} />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  onChange={handleChange}
+                />
               </div>
               <SubmitButton text={"Entrar"} />
             </div>
             <div className="mt-4 text-center text-sm">
-              Não tem conta? {" "}
-              <Link href="/register" className="underline underline-offset-4 text-violet-500">
+              Não tem conta?{" "}
+              <Link
+                href="/register"
+                className="underline underline-offset-4 text-violet-500"
+              >
                 Cadastre-se
               </Link>
             </div>

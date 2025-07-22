@@ -1,3 +1,4 @@
+version: "3.8"
 
 services:
   mongo:
@@ -7,7 +8,44 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./backend/data:/data/db
+      - mongo_db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin123
+
+  app:
+    build:
+      context: ./opa-suite
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - frontend_build:/app/build
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - SECRET_KEY_AUTH=${SECRET_KEY_AUTH}
+      - URI_DB_MONGO=${URI_DB_MONGO}
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mongo_db:
+  frontend_build:

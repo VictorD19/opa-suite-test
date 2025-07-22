@@ -9,7 +9,7 @@ import CryptoService from "../../infrastructure/services/crytoServices.js";
 const router = Router()
 const useCreate = new CreateUser(new UserRepository(UserModel), new CryptoService());
 const authContoller = new AuthController(useCreate);
-router.post("/register", (req, res) => authContoller.Register(req, res))
+router.post("/register",async (req, res) =>await authContoller.Register(req, res))
 router.post("/login", passport.authenticate("local"), authContoller.Login)
 router.post("/logout", authContoller.Logout)
 export default router;
