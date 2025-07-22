@@ -23,14 +23,18 @@ const MessageList = () => {
 
   useEffect(() => {
     getDetailsConversation();
-    socket?.on("new_message", (message) => {
-      if (message.conversationId !== id) return;
+  }, [id, receiverId]);
+
+  useEffect(() => {
+    if (!socket) return
+    socket.on("new_message", ({ message }) => {
       debugger;
+      if (message.conversationId !== id) return;
+
       let [existeMessage] = messages.filter((m) => m.id == message.id);
       if (!existeMessage) setMessages((prev) => [...prev, message]);
     });
-  }, [id, receiverId]);
-
+  }, [socket,id,receiverId])
   useEffect(() => {
     if (scrollRef?.current)
       scrollRef.current?.scrollIntoView({ behavior: "smooth" });

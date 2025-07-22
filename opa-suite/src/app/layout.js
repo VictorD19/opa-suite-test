@@ -2,6 +2,7 @@
 import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner"
 import "../styles/globals.css";
+import { AuthProvider } from "@/context/AutContext";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -19,8 +20,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${poppins.className} ${poppins.className}  `}
       >
-        {children}
-        <Toaster richColors />
+
+        <AuthProvider>
+          {children}
+          <Toaster richColors />
+        </AuthProvider>
       </body>
     </html>
   );

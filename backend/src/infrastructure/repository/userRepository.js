@@ -51,7 +51,7 @@ class UserRepository {
       name: user.name,
       online: user.online,
       role: user.role,
-      userName: user.username,
+      username: user.username,
       password: user.password,
     });
   }
@@ -82,8 +82,12 @@ class UserRepository {
       .exec();
   }
 
-  async findAll() {
-    let allUsers = await this._model.find();
+  async findAll(idUser) {
+    let allUsers = await this._model.find({
+      _id: {
+        $ne: idUser
+      }
+    }).exec();
     return allUsers.map(
       ({ _id, name, username, online, lastSeen }) =>
         new User({

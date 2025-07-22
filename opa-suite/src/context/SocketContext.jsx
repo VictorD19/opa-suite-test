@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (!user) return;
-    const newSocket = io(process.env.URL_BACKEND, {
+    const newSocket = io(process.env.NEXT_PUBLIC_API_URL_BASE, {
       transports: ["websocket"],
       query: { id: user?.id },
     });

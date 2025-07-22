@@ -14,7 +14,7 @@ const app = express();
 dotenv.config();
 
 const allowedOrigins = [
-    'http://localhost:3000',
+    process.env.URL_FRONT_END,
 ];
 const sessionMiddleware = session({
     secret: process.env.SECRET_KEY_AUTH,

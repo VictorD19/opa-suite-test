@@ -33,8 +33,10 @@ const ExecuteRequest = async (typeRequest, url, data) => {
   } catch (error) {
     if (error.response?.status === 401) {
       await Logout();
-      document.cookie = "connect.sid=; Max-Age=0; path=/;";
-      document.location.href = "/login";
+      if (window.location.pathname !== '/login') {
+        document.cookie = "connect.sid=; Max-Age=0; path=/;";
+        document.location.href = "/login";
+      }
       return;
     }
     return {
@@ -45,9 +47,9 @@ const ExecuteRequest = async (typeRequest, url, data) => {
   }
 };
 
-const ExecuteRequestGET = async (url) => await ExecuteRequest(TYPE_REQUEST.GET,url);
-const ExecuteRequestPOST = async (url,data) => await ExecuteRequest(TYPE_REQUEST.POST,url,data);
+const ExecuteRequestGET = async (url) => await ExecuteRequest(TYPE_REQUEST.GET, url);
+const ExecuteRequestPOST = async (url, data) => await ExecuteRequest(TYPE_REQUEST.POST, url, data);
 
 export {
-    ExecuteRequestGET,ExecuteRequestPOST
+  ExecuteRequestGET, ExecuteRequestPOST
 }

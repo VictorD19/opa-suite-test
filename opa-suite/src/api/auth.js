@@ -28,9 +28,9 @@ const registerSchema = z.object({
     ),
 });
 
-export const Login = async ({ username, password }) => {
+export const Login = async (dataLogin) => {
   try {
-    const request = await api.post("login", { username, password });
+    const request = await api.post("login", dataLogin);
     return request.data;
   } catch (error) {
 
@@ -38,10 +38,10 @@ export const Login = async ({ username, password }) => {
   }
 };
 
-export const Register = async ({ username, name, password }) => {
+export const Register = async (dataCreateUser) => {
   try {
-    await registerSchema.parse({ username, name, password });
-    const request = await api.post("register", { username, name, password });
+    await registerSchema.parse(dataCreateUser);
+    const request = await api.post("register", dataCreateUser);
     return request.data;
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -49,7 +49,12 @@ export const Register = async ({ username, name, password }) => {
         acc[curr.path[0]] = curr.message;
         return acc;
       }, {});
-      return { erro: formattedErrors };
+
+      let messages = []
+      Object.keys(formattedErrors).forEach(key => {
+        messages.push(formattedErrors[key])
+      })
+      return { erro: messages.join(", ") };
     }
     return { erro: error?.response?.data?.erro || "Erro desconhecido" };
   }

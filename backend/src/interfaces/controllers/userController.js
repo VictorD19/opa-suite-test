@@ -23,7 +23,7 @@ class UserController {
 
   async GetAllUser(request, response) {
     try {
-      response.json(await this._getAllUsers.get());
+      response.json(await this._getAllUsers.get(request.user.id.toString()));
     } catch (error) {
       if (error instanceof AppError)
         return response.status(error.statusCode).json({ erro: error.message });

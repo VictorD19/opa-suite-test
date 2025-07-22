@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -10,6 +10,8 @@ import { Login } from "@/api/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useSocket } from "@/context/SocketContext";
+import { useAuth } from "@/context/AutContext";
+import { Separator } from "../ui/separator";
 
 export function LoginForm({ className, ...props }) {
   const [loginData, setLoginData] = useState({
@@ -18,6 +20,7 @@ export function LoginForm({ className, ...props }) {
   });
   const router = useRouter();
   const socketConnect = useSocket();
+  const { setUser } = useAuth()
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
@@ -31,8 +34,10 @@ export function LoginForm({ className, ...props }) {
       if (erro) return toast.error(erro);
 
       toast.success(message);
-      socketConnect?.socket?.connect();
       router.push("/");
+      setUser(data.user)
+      socketConnect?.socket?.connect();
+
     } catch (error) {
       toast.error(error.message);
     }
@@ -40,11 +45,12 @@ export function LoginForm({ className, ...props }) {
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="">
         <CardHeader>
-          <CardTitle className="text-2xl">Entre em sua conta</CardTitle>
+          <CardTitle className="text-2xl">Acesse su conta</CardTitle>
+          <CardDescription>Insira suas credenciais para fazer login</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="">
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
@@ -67,8 +73,9 @@ export function LoginForm({ className, ...props }) {
                   onChange={handleChange}
                 />
               </div>
-              <SubmitButton text={"Entrar"} />
+              <SubmitButton text={"Enviar"} />
             </div>
+            <Separator />
             <div className="mt-4 text-center text-sm">
               Não tem conta?{" "}
               <Link

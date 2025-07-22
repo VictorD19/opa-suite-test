@@ -6,12 +6,10 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { AuthProvider } from "@/context/AutContext";
 import { SocketProvider } from "@/context/SocketContext";
 
 export default function Layout({ children }) {
   return (
-    <AuthProvider>
       <SocketProvider>
         <SidebarProvider>
           <AppSidebar />
@@ -22,6 +20,5 @@ export default function Layout({ children }) {
         </SidebarProvider>
         <NotificationsListener />
       </SocketProvider>
-    </AuthProvider>
   );
 }

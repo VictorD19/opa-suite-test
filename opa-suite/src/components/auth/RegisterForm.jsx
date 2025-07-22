@@ -11,6 +11,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useSocket } from "@/context/SocketContext";
+import { useAuth } from "@/context/AutContext";
+import { Separator } from "../ui/separator";
 
 export function RegisterForm({ className, ...props }) {
   const [registerData, setRegisterData] = useState({
@@ -20,7 +22,7 @@ export function RegisterForm({ className, ...props }) {
   });
   const router = useRouter();
   const socketConnect = useSocket();
-
+  const { setUser } = useAuth();
   const handleChange = (e) => {
     setRegisterData({
       ...registerData,
@@ -28,12 +30,14 @@ export function RegisterForm({ className, ...props }) {
     });
   };
   const handleSubmit = async (e) => {
+    debugger;
     e.preventDefault();
     try {
       const { message, erro, ...data } = await Register(registerData);
       if (erro) return toast.error(erro);
 
       toast.success(message);
+      setUser(data.user)
 
       socketConnect?.socket?.connect();
       router.push("/");
@@ -43,7 +47,7 @@ export function RegisterForm({ className, ...props }) {
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="w-[20rem]">
         <CardHeader>
           <CardTitle className="text-2xl">Novo Usuario</CardTitle>
         </CardHeader>
@@ -76,6 +80,7 @@ export function RegisterForm({ className, ...props }) {
               </div>
               <SubmitButton text={"Enviar"} />
             </div>
+            <Separator />
             <div className="mt-4 text-center text-sm">
               Já tem conta?{" "}
               <Link

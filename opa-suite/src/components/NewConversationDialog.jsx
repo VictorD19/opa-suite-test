@@ -59,8 +59,8 @@ export function NewConversationDialog({ trigger }) {
 
         <ScrollArea className="h-60 mt-2  rounded-md">
           <div className="flex flex-col gap-1 p-2">
-            {filtered.length ? (
-              filtered.map(({ name, username, online, id }) => (
+            {filtered.length > 0 ? (
+              filtered.map((conversation) => (
                 <Button
                   key={id}
                   variant="ghost"
@@ -69,7 +69,7 @@ export function NewConversationDialog({ trigger }) {
                 >
                   <Avatar
                     className={`w-8 h-8 ${
-                      online ? "border-2 border-green-400" : ""
+                      conversation?.online ? "border-2 border-green-400" : ""
                     }`}
                   >
                     <AvatarImage src="/avatars/fulano.jpg" alt="Avatar" />
@@ -79,10 +79,10 @@ export function NewConversationDialog({ trigger }) {
                   </Avatar>
                   <div className="">
                     <p className="text-sm font-medium text-gray-800 group-hover:text-white">
-                      {name}
+                      {conversation?.name}
                     </p>
                     <p className="text-xs text-gray-500 group-hover:text-gray-200">
-                      @{username}
+                      @{conversation?.username}
                     </p>
                   </div>
                 </Button>

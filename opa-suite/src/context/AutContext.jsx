@@ -9,12 +9,13 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
   const loadUser = async () => {
-    const { erro, ...data } = await GetUser();
-    if (erro) return toast.error(erro);
+    const data = await GetUser();
+    if (data?.erro) return toast.error(data?.erro);
     setUser(data);
   };
 
   useEffect(() => {
+    
     loadUser();
   }, []);
 
@@ -26,8 +27,8 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  const { user } = useContext(AuthContext);
+  const { user,setUser } = useContext(AuthContext);
   return {
-    user,
+    user,setUser
   };
 }

@@ -5,8 +5,8 @@ class GetAllUsers {
         this._repositoryUser = repositoryUser;
     }
 
-    async get() {
-        return await this._repositoryUser.findAll();
+    async get(idUser) {
+        return await this._repositoryUser.findAll(idUser);
     }
 }
 

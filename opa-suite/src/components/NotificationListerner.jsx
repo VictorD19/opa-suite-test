@@ -9,9 +9,9 @@ export const NotificationsListener = () => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleNewMessage = (data) => {
-      if (data.senderId !== user?.id) {
-        toast.info(`Nova mensagem: ${data.content}`);
+    const handleNewMessage = ({ message }) => {
+      if (message.senderId !== user?.id) {
+        toast.info(`Nova mensagem: ${message.content}`);
       }
     };
 
