@@ -23,7 +23,7 @@ Plataforma de chat em tempo real com autenticação, gerenciamento de conversas 
 
 ```bash
 git clone https://github.com/VictorD19/opa-suite-test.git
-cd opa-suite-chat
+cd opa-suite-test
 ```
 
 ### 2. Instale dependências
@@ -54,7 +54,7 @@ QUANTIDADE_CLUSTER=
 URL_FRONT_END=
 ```
 
-#### Frontend (`frontend/.env.local`):
+#### Frontend (`opa-suite/.env.local`):
 
 ```env
 NEXT_PUBLIC_API_URL_BASE=
@@ -86,60 +86,6 @@ Acesse em: [http://localhost:3000](http://localhost:3000)
 ![Chat](public/images/chat.png)
 ![Nova Conversa](public/images/novaConversa.png)
 ![Tela Inicial](public/images/telaInicial.png)
-
-## 🐳 Rodando com Docker
-
-### 1. Estrutura esperada:
-
-```bash
-/
-├── backend/
-│   ├── Dockerfile
-│   ├── ...
-├── frontend/
-│   ├── Dockerfile
-│   ├── ...
-├── docker-compose.yml
-```
-
-### 2. Exemplo `docker-compose.yml`
-
-```yaml
-version: '3.8'
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "${PORT}:${PORT}"
-    environment:
-      PORT: ${PORT}
-      URI_DB_MONGO: ${URI_DB_MONGO}
-      QUANTIDADE_CLUSTER: 2
-      URL_FRONT_END: ${URL_FRONT_END}
-    depends_on:
-      - mongo
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL_BASE: ${URL_BACK_END}
-
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-```
-
-### 3. Rodar com Docker
-
-```bash
-docker-compose up --build
-```
-
----
-
 
 ## ✅ Funcionalidades
 
