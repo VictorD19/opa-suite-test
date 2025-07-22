@@ -110,13 +110,12 @@ services:
   backend:
     build: ./backend
     ports:
-      - "4000:4000"
+      - "${PORT}:${PORT}"
     environment:
-      PORT: 4000
-      URI_DB_MONGO: mongodb+srv://bertramvictor8:SN1DdJKMoOaZR7HK@cluster0.ysp4pcm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-      SECRET_KEY_AUTH: OpaSuiteTesteKey
+      PORT: ${PORT}
+      URI_DB_MONGO: ${URI_DB_MONGO}
       QUANTIDADE_CLUSTER: 2
-      URL_FRONT_END: http://localhost:3000
+      URL_FRONT_END: ${URL_FRONT_END}
     depends_on:
       - mongo
 
@@ -125,7 +124,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NEXT_PUBLIC_API_URL_BASE: http://localhost:4000/
+      NEXT_PUBLIC_API_URL_BASE: ${URL_BACK_END}
 
   mongo:
     image: mongo
@@ -141,19 +140,14 @@ docker-compose up --build
 
 ---
 
-## 🧪 Testes
-
-> Em desenvolvimento. Você pode adicionar testes com Jest ou Vitest.
-
----
 
 ## ✅ Funcionalidades
 
 - [x] Login e Registro com Passport.js
 - [x] Conversas em tempo real (Socket.IO)
 - [x] Lista de usuários online/offline
-- [x] Mensagens lidas/não lidas
-- [x] Layout estilo ChatGPT com Sidebar
+- [x] Lista de Conversas
+- [x] Notificações Novas menssagens
 
 ---
 
