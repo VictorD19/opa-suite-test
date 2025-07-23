@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const url =  process.env.NEXT_PUBLIC_API_URL_BASE;
+console.log("URL_BACKEND1:", url);
 const IniciarCliente = () => {
   const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL_BASE +"api/",
+    baseURL: url+"api/",
     withCredentials: true,
     headers: {
       "Content-Type": "application/json",

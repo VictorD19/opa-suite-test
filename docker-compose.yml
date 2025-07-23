@@ -15,12 +15,16 @@ services:
     build:
       context: ./opa-suite
       dockerfile: Dockerfile     
+      args:
+        NEXT_PUBLIC_API_URL_BASE: ${NEXT_PUBLIC_API_URL_BASE}
     ports:
-      - "8080:80"
+      - "${PORT}:${PORT}"
     volumes:
       - frontend_build:/app/build
     env_file:
-      - ./opa-suite/.env
+      - .env
+    environment:
+      - NEXT_PUBLIC_API_URL_BASE=${NEXT_PUBLIC_API_URL_BASE}
     networks:
       - app_network
 
@@ -29,9 +33,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "4000:4000"
+      - "${PORT_BACKEND}:${PORT_BACKEND}"
     env_file:
-      - ./backend/.env
+      - .env
+    environment:
+      - PORT=${PORT_BACKEND}
     depends_on:
       - mongo
     restart: unless-stopped
