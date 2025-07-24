@@ -16,6 +16,9 @@ dotenv.config();
 const allowedOrigins = [
     process.env.URL_FRONT_END,
 ];
+
+console.log("url server",allowedOrigins)
+console.log("secre",process.env.SECRET_KEY_AUTH)
 const sessionMiddleware = session({
     secret: process.env.SECRET_KEY_AUTH,
     resave: false,

@@ -29,7 +29,8 @@ const MessageList = () => {
     if (!socket) return
     socket.on("new_message", ({ message }) => {
 
-      if (message.conversationId !== id) return;
+      let conversationIdDefault = message.conversationId || "0";
+      if (message.conversationId !== conversationIdDefault) return;
 
       let [existeMessage] = messages.filter((m) => m.id == message.id);
       if (!existeMessage) setMessages((prev) => [...prev, message]);

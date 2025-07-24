@@ -14,18 +14,20 @@ import {
 import { Button } from "../ui/button";
 import { ConversationIntem } from "./ConversationItem";
 import { Search } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState,useRef} from "react";
 import { SidebarFooterUser } from "./SidebarFooterUser";
 import { NewConversationDialog } from "../NewConversationDialog";
 import { GetAllConversation } from "@/api/conversations";
 import { toast } from "sonner";
 import { useSocket } from "@/context/SocketContext";
+import { useAuth } from "@/context/AutContext";
 
 export function AppSidebar({ ...props }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [conversations, setConvesations] = useState([]);
     const { socket } = useSocket()
-
+ const { user } = useAuth();
+const conversationsRef = useRef([]);
     const getConversations = useCallback(async () => {
         const data = await GetAllConversation();
 
@@ -38,56 +40,65 @@ export function AppSidebar({ ...props }) {
     }, []);
 
 
-    useEffect(() => {
-        if (!socket)
-            return;
-        socket?.on("user-status-changed", ({ userId, online, lastSeen }) => {
-            let [existConvesationWithUser] = conversations.filter(user => user?.otherUser.id == userId)
-            if (!existConvesationWithUser)
-                return;
+useEffect(() => {
+  conversationsRef.current = conversations;
+}, [conversations]);
 
+   useEffect(() => {
+  if (!socket) return;
 
-            setConvesations(prevConversations => {
-                return prevConversations.map(conversation => {
-                    if (conversation.otherUser.id === userId) {
-                        return {
-                            ...conversation,
-                            otherUser: {
-                                ...conversation.otherUser,
-                                online: online
-                            }
-                        };
-                    }
-                    return conversation;
-                });
-            });
+  const onStatusChanged = ({ userId, online }) => {
+    const exists = conversationsRef.current.find(c => c?.otherUser.id === userId);
+    if (!exists) return;
 
+    setConvesations(prev =>
+      prev.map(conversation => {
+        if (conversation.otherUser.id === userId) {
+          return {
+            ...conversation,
+            otherUser: { ...conversation.otherUser, online },
+          };
+        }
+        return conversation;
+      })
+    );
+  };
+
+  const onNewMessage = ({ message, otherUser }) => {
+    setConvesations(prev => {
+      const exists = prev.find(
+        c => c?.otherUser.id === otherUser.id && user?.id === c?.idSender
+      );
+      if (exists) {
+        return prev.map(conversation => {
+          if (conversation.otherUser.id === otherUser.id) {
+            return {
+              ...conversation,
+              lastMessage: message,
+            };
+          }
+          return conversation;
         });
+      }
+      return [
+        ...prev,
+        {
+          id: message.conversationId,
+          otherUser,
+          lastMessage: message,
+        },
+      ];
+    });
+  };
 
-        socket.on("new_message", ({ message, otherUser }) => {
-            let [existConvesationWithUser] = conversations.filter(user => user?.otherUser.id == otherUser.id)
-            if (!existConvesationWithUser)
-                return setConvesations(prev => [...prev, {
-                    id: message.conversationId,
-                    otherUser,
-                    lastMessage: message
-                }])
+  socket.on("user-status-changed", onStatusChanged);
+  socket.on("new_message", onNewMessage);
 
-
-            setConvesations(prevConversations => {
-                return prevConversations.map(conversation => {
-                    if (conversation.otherUser.id === otherUser.id) {
-                        return {
-                            ...conversation,
-                            lastMessage: message
-                        };
-                    }
-                    return conversation;
-                });
-            });
-        })
-    }, [conversations]);
-
+  return () => {
+    socket.off("user-status-changed", onStatusChanged);
+    socket.off("new_message", onNewMessage);
+  };
+}, [socket, user]);
 
     return (
         <Sidebar {...props}>
@@ -133,3 +144,4 @@ export function AppSidebar({ ...props }) {
         </Sidebar>
     );
 }
+
