@@ -15,6 +15,7 @@ dotenv.config();
 
 const allowedOrigins = [
     process.env.URL_FRONT_END,
+    "http://localhost:3000",
 ];
 
 console.log("url server",allowedOrigins)

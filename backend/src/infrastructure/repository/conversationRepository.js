@@ -78,7 +78,7 @@ class ConversationRepository {
 
       return {
         id: conversation._id,
- 	idSender: isSender ? conversation.senderId._id : conversation.receiverId._id,
+        idSender: isSender ? conversation.senderId._id : conversation.receiverId._id,
         otherUser: {
           id: otherUser._id,
           name: otherUser.name,

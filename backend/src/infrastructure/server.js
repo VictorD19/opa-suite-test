@@ -77,7 +77,7 @@ const server = async () => {
     chatHandler(socket, io, UsesCases());
   });
 
-  server.listen(process.env.PORT, () => {
+  server.listen(4000, () => {
     console.log(`Server is running on port ${process.env.PORT} Workers: ${process.pid}`);
   });
 };

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SubmitButton } from "../SumitButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Login } from "@/api/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -20,7 +20,7 @@ export function LoginForm({ className, ...props }) {
   });
   const router = useRouter();
   const socketConnect = useSocket();
-  const { setUser } = useAuth()
+  const { setUser, user } = useAuth()
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
@@ -33,15 +33,17 @@ export function LoginForm({ className, ...props }) {
       const { message, erro, ...data } = await Login(loginData);
       if (erro) return toast.error(erro);
 
-      toast.success(message);
-      router.push("/");
-      setUser(data.user)
+      setUser(data.user);
       socketConnect?.socket?.connect();
 
+      toast.success("Login realizado com sucesso!");
+      window.location.href = "/";
     } catch (error) {
       toast.error(error.message);
     }
   };
+
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -75,7 +77,7 @@ export function LoginForm({ className, ...props }) {
               </div>
               <SubmitButton text={"Enviar"} />
             </div>
-         <Separator  />
+            <Separator />
             <div className="mt-4 text-center text-sm">
               Não tem conta?{" "}
               <Link
